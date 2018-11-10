@@ -1,0 +1,14 @@
+#jmu {
+  background: url(/img/jmu_resume.jpg); height: 50%;
+}
+
+#gu {
+  background: url(/img/gu_resume.jpg); height: 50%;
+}
+
+#education .row {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
