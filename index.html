@@ -10,44 +10,113 @@
 
   <body>
     <div class="container">
+      <div class="row text-center">
+        <div class="col-sm">
+
+        </div>
+        <div class="col-sm">
+          <button class="btn btn-secondary btn-lg dropdown-toggle btn-block" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Week <label id="week_label"></label>
+          </button>
+          <div class="dropdown-menu" id="week">
+            <a class="dropdown-item" href="#">1</a>
+            <a class="dropdown-item" href="#">2</a>
+            <a class="dropdown-item" href="#">3</a>
+            <a class="dropdown-item" href="#">4</a>
+            <a class="dropdown-item" href="#">5</a>
+            <a class="dropdown-item" href="#">6</a>
+            <a class="dropdown-item" href="#">7</a>
+            <a class="dropdown-item" href="#">8</a>
+            <a class="dropdown-item" href="#">9</a>
+            <a class="dropdown-item" href="#">10</a>
+            <a class="dropdown-item" href="#">11</a>
+            <a class="dropdown-item" href="#">12</a>
+            <a class="dropdown-item" href="#">13</a>
+            <a class="dropdown-item" href="#">14</a>
+            <a class="dropdown-item" href="#">15</a>
+            <a class="dropdown-item" href="#">16</a>
+            <a class="dropdown-item" href="#">17</a>
+            <a class="dropdown-item" href="#">18</a>
+          </div>
+
+        </div>
+        <div class="col-sm">
+
+        </div>
+      </div>
+    </div>
+    <div class="container" id="scores">
 
     </div>
 
 
     <script>
-      $(document).ready(function() {
-        $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard', function(data) {
+      var curWeek = 0
+
+      function get_scores(week) {
+
+        $("#scores").empty();
+        $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?week=' + week, function(data) {
           var total = 0
+          var totalOverUnder = 0
+          var tempWeek = data.week.number
+
+          $('#week_label').text(tempWeek)
 
           for (let i = 0; i < data.events.length; i++) {
+
             var date_str = new Date(data.events[i].date).toLocaleString('en-US', {
               timeZone: 'EST'
             })
             var merica_date = new Date(date_str)
 
-            if (merica_date.getDay() == 0) {
-              var text = '\t'
-              text += data.events[i].competitions[0].competitors[1].team.abbreviation + ' ';
-              total += parseInt(data.events[i].competitions[0].competitors[1].score)
-              text += data.events[i].competitions[0].competitors[1].score + ' - ';
-              text += data.events[i].competitions[0].competitors[0].team.abbreviation + ' ';
-              total += parseInt(data.events[i].competitions[0].competitors[0].score)
-              text += data.events[i].competitions[0].competitors[0].score + '\t';
 
-              var team1 = data.events[i].competitions[0].competitors[1].team.logo
-              var team2 = data.events[i].competitions[0].competitors[0].team.logo
 
-              var id = ($('.col-sm .control-group').length + 1).toString();
-              $('.container').append('<div class="row"><div class="col-sm"><img src="' + team1 + '" width="50" height="50"></div><div class="col-sm"><label class="control-label">' + text + '</label></div><div class="col-sm"><img src="' + team2 + '" width="50" height="50"></div></div>');
+            var text = ''
+
+            console.log()
+
+            if (typeof data.events[i].competitions[0].odds != 'undefined') {
+              var details = data.events[i].competitions[0].odds[0].details + ':\t'
+            } else {
+              var details = ''
             }
+
+            text += data.events[i].competitions[0].competitors[1].team.abbreviation + ' ';
+            text += data.events[i].competitions[0].competitors[1].score + ' - ';
+            text += data.events[i].competitions[0].competitors[0].team.abbreviation + ' ';
+            text += data.events[i].competitions[0].competitors[0].score + '\t';
+
+            var team1 = data.events[i].competitions[0].competitors[1].team.logo
+            var team2 = data.events[i].competitions[0].competitors[0].team.logo
+
+            $('#scores').append('<div class="row text-center border"><div class="col-sm"><img src="' + team1 + '" width="50" height="50"></div><div class="col-sm"><label style="display: block;">' + details + '</label><label style="display: block;">' + text + '</label></div><div class="col-sm"><img src="' + team2 + '" width="50" height="50"></div></div>');
+
+
+            if (merica_date.getDay() == 0) {
+              if (typeof data.events[i].competitions[0].odds != 'undefined') {
+                totalOverUnder += parseInt(data.events[i].competitions[0].odds[0].overUnder)
+              }
+              total += parseInt(data.events[i].competitions[0].competitors[1].score)
+              total += parseInt(data.events[i].competitions[0].competitors[0].score)
+            }
+
           }
 
+          $('#scores').append('<div class="row text-center"><div class="col-sm"></div><div class="col-sm"><label style="display: block;">Caesars Total Over Under: ' + totalOverUnder + '</label><label style="display: block;">Hanson Bet Total: ' + total + '</label></div><div class="col-sm"></div></div>');
+        })
+      }
 
+      $(document).ready(function() {
+        $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard', function(data) {
+          $('#week a').on('click', function() {
+            var txt = ($(this).text());
+            get_scores(txt)
+          });
 
-
-
-          var id = ($('.col-sm .control-group').length + 1).toString();
-          $('.container').append('<div class="row"><div class="col-sm"></div><div class="col-sm"><label class="control-label">Total Score: ' + total + '</label></div><div class="col-sm"></div></div>');
+          $('#week_label').text(data.week.number)
+          curWeek = data.week.number
+          get_scores(data.week.number)
         })
       })
 
