@@ -15,9 +15,9 @@
 	var total = 0
 
 	for (let i = 0; i < data.events.length; i++) {
-  		var date_str = new Date(data.events[15].date).toLocaleString('en-US', { timeZone: 'EST' })
+  		var date_str = new Date(data.events[i].date).toLocaleString('en-US', { timeZone: 'EST' })
 		var merica_date = new Date(date_str)
-		if (merica_date.getDay() == '0') {
+		if (merica_date.getDay() == 0) {
 			text +=  data.events[i].competitions[0].competitors[1].team.abbreviation + ' ';
 			total += parseInt(data.events[i].competitions[0].competitors[1].score)
 			text +=  data.events[i].competitions[0].competitors[1].score + ' - ';
