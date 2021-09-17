@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<body>
+    <div class="mypanel"></div>
+
+    <script>
+    $.getJSON('http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard', function(data) {
+        var text = ''
+	var total = 0
+	for (let i = 0; i < data.events.length; i++) {
+  		//text += data.events[i].name + ': '; 
+		text +=  data.events[i].competitions[0].competitors[1].team.abbreviation + ' ';
+		total += parseInt(data.events[i].competitions[0].competitors[1].score)
+		text +=  data.events[i].competitions[0].competitors[1].score + ' - ';
+		text +=  data.events[i].competitions[0].competitors[0].team.abbreviation + ' ';
+		total += parseInt(data.events[i].competitions[0].competitors[0].score)
+		text +=  data.events[i].competitions[0].competitors[0].score + '<br>';
+	}
+	
+	text += '<br>' + total
+                    
+        console.log(data)
+        $(".mypanel").html(text);
+    });
+    </script>
+    
+</body>
+</html>
