@@ -26,6 +26,9 @@
         console.log(data)
         $(".mypanel").html(text);
     });
+    $.getJSON('http://site.api.espn.com/apis/site/v2/sports/football/nfl/teams', function(data) {                    
+        console.log(data)
+    });
     </script>
     
 </body>
