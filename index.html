@@ -13,22 +13,24 @@
     $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard', function(data) {
         var text = ''
 	var total = 0
+
 	for (let i = 0; i < data.events.length; i++) {
-  		//text += data.events[i].name + ': '; 
-		text +=  data.events[i].competitions[0].competitors[1].team.abbreviation + ' ';
-		total += parseInt(data.events[i].competitions[0].competitors[1].score)
-		text +=  data.events[i].competitions[0].competitors[1].score + ' - ';
-		text +=  data.events[i].competitions[0].competitors[0].team.abbreviation + ' ';
-		total += parseInt(data.events[i].competitions[0].competitors[0].score)
-		text +=  data.events[i].competitions[0].competitors[0].score + '<br>';
+  		var date_str = new Date(data.events[15].date).toLocaleString('en-US', { timeZone: 'EST' })
+		var merica_date = new Date(date_str)
+		if (merica_date.getDay() == 0) {
+			text +=  data.events[i].competitions[0].competitors[1].team.abbreviation + ' ';
+			total += parseInt(data.events[i].competitions[0].competitors[1].score)
+			text +=  data.events[i].competitions[0].competitors[1].score + ' - ';
+			text +=  data.events[i].competitions[0].competitors[0].team.abbreviation + ' ';
+			total += parseInt(data.events[i].competitions[0].competitors[0].score)
+			text +=  data.events[i].competitions[0].competitors[0].score + '<br>';
+		}
 	}
 	
 	text += '<br>Total: ' + total
                     
         console.log(data);
-	var date_str = new Date(data.events[15].date).toLocaleString('en-US', { timeZone: 'EST' })
-	var merica_date = new Date(date_str)
-	console.log(merica_date.getDay());
+
         $(".mypanel").html(text);
     });
     $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/carolina', function(data) {                    
