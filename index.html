@@ -1,42 +1,53 @@
 <html>
+
   <head>
     <meta charset="utf-8" />
   </head>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<body>
-    <div class="mypanel"></div>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <body>
+    <div class="form-horizontal">
+      <div class="control-group">
+      </div>
+    </div>
 
     <script>
-    $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard', function(data) {
-        var text = ''
-	var total = 0
+      $(document).ready(function() {
+        $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard', function(data) {
+          var total = 0
 
-	for (let i = 0; i < data.events.length; i++) {
-  		var date_str = new Date(data.events[i].date).toLocaleString('en-US', { timeZone: 'EST' })
-		var merica_date = new Date(date_str)
-		if (merica_date.getDay() == 0) {
-			text +=  data.events[i].competitions[0].competitors[1].team.abbreviation + ' ';
-			total += parseInt(data.events[i].competitions[0].competitors[1].score)
-			text +=  data.events[i].competitions[0].competitors[1].score + ' - ';
-			text +=  data.events[i].competitions[0].competitors[0].team.abbreviation + ' ';
-			total += parseInt(data.events[i].competitions[0].competitors[0].score)
-			text +=  data.events[i].competitions[0].competitors[0].score + '<br>';
-		}
-	}
-	
-	text += '<br>Total: ' + total
-                    
-        console.log(data);
+          for (let i = 0; i < data.events.length; i++) {
+            var date_str = new Date(data.events[i].date).toLocaleString('en-US', {
+              timeZone: 'EST'
+            })
+            var merica_date = new Date(date_str)
 
-        $(".mypanel").html(text);
-    });
-    $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/carolina', function(data) {                    
-        console.log(data)
-    });
+            if (merica_date.getDay() == 0) {
+              var text = ''
+              text += data.events[i].competitions[0].competitors[1].team.abbreviation + ' ';
+              total += parseInt(data.events[i].competitions[0].competitors[1].score)
+              text += data.events[i].competitions[0].competitors[1].score + ' - ';
+              text += data.events[i].competitions[0].competitors[0].team.abbreviation + ' ';
+              total += parseInt(data.events[i].competitions[0].competitors[0].score)
+              text += data.events[i].competitions[0].competitors[0].score + '<br>';
+
+              var team1 = data.events[i].competitions[0].competitors[1].team.logo
+              var team2 = data.events[i].competitions[0].competitors[0].team.logo
+
+              var id = ($('.form-horizontal .control-group').length + 1).toString();
+              $('.form-horizontal').append('<div class="control-group" id="control-group' + id + '"><img src="' + team1 + '" width="50" height="50"><label class="control-label">' + text + '</label><img src="' + team2 + '" width="50" height="50"></div>');
+            }
+          }
+
+          var id = ($('.form-horizontal .control-group').length + 1).toString();
+          $('.form-horizontal').append('<div class="control-group" id="control-group' + id + '"><label class="control-label">Total Score: ' + total + '</label></div>');
+        })
+      })
+
     </script>
-    
-</body>
+  </body>
+
 </html>
