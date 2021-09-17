@@ -24,7 +24,7 @@
 	text += '<br>Total: ' + total
                     
         console.log(data);
-	console.log(Date.parse(Date.parse(data.events[15].date).toLocaleString("en-US", {timeZone: 'EST'})).getDay());
+	console.log(new Date(data.events[15].date).getDay());
         $(".mypanel").html(text);
     });
     $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/carolina', function(data) {                    
