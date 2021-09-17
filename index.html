@@ -10,7 +10,7 @@
 
   <body>
     <div class="container">
-      <div class="row text-center align-middle">
+      <div class="row text-center align-items-center">
         <div class="col-sm">
 
         </div>
@@ -90,7 +90,7 @@
             var team1 = data.events[i].competitions[0].competitors[1].team.logo
             var team2 = data.events[i].competitions[0].competitors[0].team.logo
 
-            $('#scores').append('<div class="row text-center border align-middle"><div class="col-sm"><img src="' + team1 + '" width="80" height="80"></div><div class="col-sm"><label style="display: block;">' + details + '</label><label style="display: block;">' + text + '</label></div><div class="col-sm"><img src="' + team2 + '" width="80" height="80"></div></div>');
+            $('#scores').append('<div class="row text-center border align-items-center"><div class="col-sm"><img src="' + team1 + '" width="80" height="80"></div><div class="col-sm"><label style="display: block;">' + details + '</label><label style="display: block;">' + text + '</label></div><div class="col-sm"><img src="' + team2 + '" width="80" height="80"></div></div>');
 
 
             if (merica_date.getDay() == 0) {
@@ -103,7 +103,7 @@
 
           }
 
-          $('#scores').append('<div class="row text-center align-middle"><div class="col-sm"></div><div class="col-sm"><label style="display: block;">Caesars Total Over Under: ' + totalOverUnder + '</label><label style="display: block;">Hanson Bet Total: ' + total + '</label></div><div class="col-sm"></div></div>');
+          $('#scores').append('<div class="row text-center align-items-center"><div class="col-sm"></div><div class="col-sm"><label style="display: block;">Caesars Total Over Under: ' + totalOverUnder + '</label><label style="display: block;">Hanson Bet Total: ' + total + '</label></div><div class="col-sm"></div></div>');
         })
       }
 
