@@ -8,7 +8,7 @@
     <div class="mypanel"></div>
 
     <script>
-    $.getJSON('http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard', function(data) {
+    $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard', function(data) {
         var text = ''
 	var total = 0
 	for (let i = 0; i < data.events.length; i++) {
