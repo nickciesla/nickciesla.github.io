@@ -58,6 +58,8 @@
         $("#scores").empty();
         $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?week=' + week, function(data) {
           var total = 0
+          var total1 = 0
+          var total4 = 0
           var totalOverUnder = 0
           var tempWeek = data.week.number
 
@@ -66,15 +68,17 @@
           for (let i = 0; i < data.events.length; i++) {
 
             var date_str = new Date(data.events[i].date).toLocaleString('en-US', {
-              timeZone: 'EST'
+              timeZone: "America/New_York"
             })
             var merica_date = new Date(date_str)
 
-
-
             var text = ''
 
-            console.log()
+            var game_time = new Date(data.events[i].competitions[0].date).toLocaleString('en-US', {
+              timeZone: "America/New_York"
+            })
+            game_time = new Date(game_time)
+            game_time = game_time.getHours() - 12
 
             if (typeof data.events[i].competitions[0].odds != 'undefined') {
               var details = data.events[i].competitions[0].odds[0].details + ':\t'
@@ -99,11 +103,19 @@
               }
               total += parseInt(data.events[i].competitions[0].competitors[1].score)
               total += parseInt(data.events[i].competitions[0].competitors[0].score)
+              if (game_time == 1) {
+                total1 += parseInt(data.events[i].competitions[0].competitors[1].score)
+                total1 += parseInt(data.events[i].competitions[0].competitors[0].score)
+              }
+              if (game_time == 4) {
+                total4 += parseInt(data.events[i].competitions[0].competitors[1].score)
+                total4 += parseInt(data.events[i].competitions[0].competitors[0].score)
+              }
             }
 
           }
 
-          $('#scores').append('<div class="row text-center align-items-center"><div class="col-sm"></div><div class="col-sm"><label style="display: block;">Caesars Total Over Under: ' + totalOverUnder + '</label><label style="display: block;">Hanson Bet Total: ' + total + '</label></div><div class="col-sm"></div></div>');
+          $('#scores').append('<div class="row text-center align-items-center"><div class="col-sm"></div><div class="col-sm"><label style="display: block;">Caesars Total Over Under: ' + totalOverUnder + '</label><label style="display: block;">Hanson Bet Total: ' + total + '</label><label style="display: block;">1:00 PM Total: ' + total1 + '</label><label style="display: block;">4:00 PM Total: ' + total4 + '</label></div><div class="col-sm"></div></div>');
         })
       }
 
