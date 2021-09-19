@@ -74,7 +74,7 @@ function get_scores(week) {
 
     }
 
-    $('#scores').append('<div class="row text-center align-items-center"><div class="col-sm"></div><div class="col-sm"><label" class="boxscore">Caesars Total Over Under: ' + totalOverUnder + '</label><label class="boxscore">Hanson Bet Total: ' + total + '</label><label class="boxscore">1:00 PM Total: ' + total1 + '</label><label class="boxscore">4:00 PM Total: ' + total4 + '</label></div><div class="col-sm"></div></div>');
+    $('#scores').append('<div class="row text-center align-items-center"><div class="col-sm"></div><div class="col-sm"><label class="boxscore">Caesars Total Over Under: ' + totalOverUnder + '</label><label class="boxscore">Hanson Bet Total: ' + total + '</label><label class="boxscore">1:00 PM Total: ' + total1 + '</label><label class="boxscore">4:00 PM Total: ' + total4 + '</label></div><div class="col-sm"></div></div>');
   })
 }
 
