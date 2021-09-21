@@ -8,17 +8,27 @@ function convert_date(old_date) {
   return new Date(date_str)
 }
 
+function getDetails(data, i) {
+  var details
+
+  if (typeof data.events[i].competitions[0].odds != 'undefined') {
+    details = data.events[i].competitions[0].odds[0].details
+  } else {
+    if (typeof data.events[i].competitions[0].situation != 'undefined') {
+      details = data.events[i].competitions[0].situation.lastPlay.text
+    } else {
+      if (typeof data.events[i].competitions[0].headlines != 'undefined') {
+        details = data.events[i].competitions[0].headlines[0].shortLinkText
+      } else {
+        details = ''
+      }
+    }
+  }
+
+  return details
+}
+
 function get_scores(week) {
-
-  $("#thursday").empty();
-  $("#sunday").empty();
-  $("#monday").empty();
-  $("#bets").empty();
-
-  $("#thursday").append('<div class="row text-center align-items-center"> <div class="col-sm"><h1><span class="badge badge-primary">Thursday</span></h1></div><div class="col-sm"></div><div class="col-sm"></div></div>')
-  $("#sunday").append('<div class="row text-center align-items-center"> <div class="col-sm"><h1><span class="badge badge-primary">Sunday</span></h1></div><div class="col-sm"></div><div class="col-sm"></div></div>')
-  $("#monday").append('<div class="row text-center align-items-center"> <div class="col-sm"><h1><span class="badge badge-primary">Monday</span></h1></div><div class="col-sm"></div><div class="col-sm"></div></div>')
-
   $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?week=' + week, function(data) {
     var total = 0
     var total1 = 0
@@ -36,19 +46,7 @@ function get_scores(week) {
       var game_time = convert_date(data.events[i].date)
       game_time = game_time.getHours() - 12
 
-      if (typeof data.events[i].competitions[0].odds != 'undefined') {
-        details = data.events[i].competitions[0].odds[0].details
-      } else {
-        if (typeof data.events[i].competitions[0].situation != 'undefined') {
-          details = data.events[i].competitions[0].situation.lastPlay.text
-        } else {
-          if (typeof data.events[i].competitions[0].headlines != 'undefined') {
-            details = data.events[i].competitions[0].headlines[0].shortLinkText
-          } else {
-            details = ''
-          }
-        }
-      }
+      details = getDetails(data, i)
 
       text += data.events[i].competitions[0].competitors[1].team.abbreviation + ' ';
       text += data.events[i].competitions[0].competitors[1].score + ' - ';
@@ -117,6 +115,16 @@ function get_scores(week) {
 $(document).ready(function() {
   $.getJSON('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard', function(data) {
     $('#week a').on('click', function() {
+
+      $("#thursday").empty();
+      $("#sunday").empty();
+      $("#monday").empty();
+      $("#bets").empty();
+
+      $("#thursday").append('<div class="row text-center align-items-center"> <div class="col-sm"><h1><span class="badge badge-primary">Thursday</span></h1></div><div class="col-sm"></div><div class="col-sm"></div></div>')
+      $("#sunday").append('<div class="row text-center align-items-center"> <div class="col-sm"><h1><span class="badge badge-primary">Sunday</span></h1></div><div class="col-sm"></div><div class="col-sm"></div></div>')
+      $("#monday").append('<div class="row text-center align-items-center"> <div class="col-sm"><h1><span class="badge badge-primary">Monday</span></h1></div><div class="col-sm"></div><div class="col-sm"></div></div>')
+
       get_scores(($(this).text()))
     });
 
