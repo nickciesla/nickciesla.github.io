@@ -1,8 +1,7 @@
 //masters
-
 const scores = Object() 
-
 const teams = Object()
+const withdrawn = ['K. Na', 'W. Zalatoris']
 
 teams['Voor'] = ['R. McIlroy', 'J. Rahm', 'T. Hoge', 'T. Kim', 'K. Kitayama', 'H. English']
 teams['KG'] = ['S. Scheffler', 'J. Rahm', 'A. Scott', 'S. Theegala', 'H. Varner III', 'C. Schwartzel']
@@ -14,12 +13,6 @@ teams['Okeefe'] = ['S. Scheffler', 'J. Rahm', 'T. Kim', 'S. Theegala', 'H. Engli
 teams['Ciesla'] = ['S. Scheffler', 'J. Rahm', 'T. Kim', 'M. Pereira', 'C. Champ', 'K. Kitayama']
 teams['Doug'] = ['P. Cantlay', 'X. Schauffele', 'T. Hoge', 'B. Harman', 'K.H. Lee', 'S. Straka']
 teams['Tim'] = ['J. Rahm', 'C. Smith', 'T. Kim', 'S. Kim', 'K. Kitayama', 'H. English']
-
-withdrawn = ['K. Na', 'W. Zalatoris']
-
-
-function get_scores(week) {
-}
 
 $(document).ready(function() {
   $.getJSON('https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard', function(data) {
