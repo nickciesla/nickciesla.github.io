@@ -92,7 +92,6 @@ $(document).ready(function() {
           if (score_count == 4 && !wrote) {
             $("#teamscores").append('<div class="row text-center align-items-center"><div class="col-md text-truncate"><s>' + golfer + '</s></div><div class="col-md"><s>' + score + '</s></div></div>')
           }
-          console.log(golfer)
         }
       }
       $("#teamscores").append('<div class="row text-center align-items-center"><div class="col-md text-truncate">Total</div><div class="col-md">' + score_total + '</div></div>')
@@ -122,7 +121,5 @@ $(document).ready(function() {
       id = "#sb_row_" + i
       $(id).append('<div class="col-md text-truncate">' + golfer + '</div><div class="col-md text-truncate">' + score + '</div>')
     }
-    console.log(scores)
-    console.log(data)
   })
 })
