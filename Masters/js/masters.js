@@ -1,3 +1,5 @@
+//masters
+
 const scores = Object() 
 
 const teams = Object()
