@@ -69,9 +69,6 @@ $(document).ready(function() {
     console.log(scores)
 
     for (let [golfer, score] of Object.entries(scores)) {
-      if (withdrawn.includes(golfer)) {
-        score = ['+20', 77, 77, 77, 77]
-      }
       if (score[0] > cut && !withdrawn.includes(golfer)) {
         score[1] = '+' + (parseInt(score[1]) + 10)
       }
@@ -84,6 +81,9 @@ $(document).ready(function() {
       for (var [golfer, score] of Object.entries(scores)) {
         wrote = false
         if (golfers.includes(golfer)) {
+          if (withdrawn.includes(golfer)) {
+            score = ['', '+100', 77, 77, 77, 77]
+          }
           if (score_count < 4) {
             if (score[1] != 'E') {
               score_total = score_total + parseInt(score[1])
