@@ -64,13 +64,14 @@ $(document).ready(function() {
       } else {
         day4 = 77
       }
-      scores[golfer] = [pos, score, day1, day2, day3, day4]
+      scores[golfer] = [pos, '', score, day1, day2, day3, day4]
     }
     console.log(scores)
 
     for (let [golfer, score] of Object.entries(scores)) {
       if (score[0] > cut && !withdrawn.includes(golfer)) {
-        score[1] = '+' + (parseInt(score[1]) + 10)
+        score[1] = '(MC) '
+        score[2] = '+' + (parseInt(score[2]) + 10)
       }
     }
 
@@ -82,18 +83,18 @@ $(document).ready(function() {
         wrote = false
         if (golfers.includes(golfer)) {
           if (withdrawn.includes(golfer)) {
-            score = ['', '+100', 77, 77, 77, 77]
+            score = ['', '(W) ', '+100', 77, 77, 77, 77]
           }
           if (score_count < 4) {
-            if (score[1] != 'E') {
-              score_total = score_total + parseInt(score[1])
+            if (score[2] != 'E') {
+              score_total = score_total + parseInt(score[2])
             }
             score_count = score_count + 1
-            $("#teamscores").append('<div class="row text-center align-items-center"><div class="col-md text-truncate">' + golfer + '</div><div class="col-md">' + score.slice(1) + '</div></div>')
+            $("#teamscores").append('<div class="row text-center align-items-center"><div class="col-md text-truncate">' + golfer + '</div><div class="col-md">' + score[1] + score.slice(2) + '</div></div>')
             wrote = true
           }
           if (score_count == 4 && !wrote) {
-            $("#teamscores").append('<div class="row text-center align-items-center"><div class="col-md text-truncate"><s>' + golfer + '</s></div><div class="col-md"><s>' + score.slice(1) + '</s></div></div>')
+            $("#teamscores").append('<div class="row text-center align-items-center"><div class="col-md text-truncate"><s>' + golfer + '</s></div><div class="col-md"><s>' + score[1] + score.slice(2) + '</s></div></div>')
           }
         }
       }
